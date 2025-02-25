@@ -1,0 +1,96 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load tasks_tags %}
+
+{% block title %}Mis Tareas{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/tasks_styles.css' %}?v=1">
+{% endblock %}
+
+{% block content %}
+<div class="tasks-header">
+    <h2 class="tasks-title">Mis Tareas</h2>
+</div>
+
+<div class="tasks-grid">
+    {% for task in tasks %}
+    <div class="task-card">
+        <div class="task-content">
+            <div class="task-header">
+                <h2 class="task-title">{{ task.title }}</h2>
+                <span class="status-badge 
+                    {% if task.state == 'pendiente' %}
+                        status-pending
+                    {% elif task.state == 'en_proceso' %}
+                        status-in-progress
+                    {% else %}
+                        status-completed
+                    {% endif %}
+                ">
+                    {{ task.get_state_display }}
+                </span>
+            </div>
+            <p class="task-description">{{ task.description|safe }}</p>
+            <div class="task-details">
+                <div class="detail-item">
+                    <i class="far fa-clock detail-icon"></i>
+                    <span class="detail-text">Fecha límite: {{ task.deadline|date:"d/m/Y H:i" }}</span>
+                </div>
+                <div class="detail-item">
+                    <i class="far fa-calendar-alt detail-icon"></i>
+                    <span class="detail-text">Creado: {{ task.created_date|date:"d/m/Y" }}</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-tag detail-icon"></i>
+                    <span class="detail-text">Categoría: {{ task.category.name }}</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-users detail-icon"></i>
+                    <div class="members-list">
+                        {% for member in task.members.all %}
+                        <span class="member-badge">
+                            {{ member.get_full_name|default:member.username }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {% if user|has_group:"Personal" or user|has_group:"Administradores" %}
+                <div class="task-actions">
+                    <a href="{% url 'task_update' task.id %}" class="edit-button">
+                        <i class="fas fa-edit"></i>
+                        Editar
+                    </a>
+                    {% if user|has_group:"Administradores" %}
+                    <a href="{% url 'task_delete' task.id %}" class="delete-button">
+                        <i class="fas fa-trash-alt"></i>
+                        Eliminar
+                    </a>
+                    {% else %}
+                    <p>Para eliminar tareas, debes ser administrador</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+        <i class="fas fa-tasks empty-icon"></i>
+        <p class="empty-text">No tienes tareas pendientes</p>
+    </div>
+    {% endfor %}
+</div>
+{% if user|has_group:"Personal" or user|has_group:"Administradores" %}
+<div class="add-task-container">
+    <a href="{% url 'task_create' %}" class="add-task-button">
+        <span class="button-content">
+            <i class="fas fa-plus"></i>
+            <span class="button-text">Crear Nueva Tarea</span>
+        </span>
+        <span class="button-effect"></span>
+    </a>
+</div>
+{% endif %}
+{% endblock %}

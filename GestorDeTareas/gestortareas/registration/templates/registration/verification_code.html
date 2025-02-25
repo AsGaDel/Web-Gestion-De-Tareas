@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Registro{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/signup_styles.css' %}?v=1">
+<link rel="stylesheet" href="{% static 'core/css/verification_code_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <i class="fas fa-envelope register-icon"></i>
+            <h1 class="register-title">Cambiar el correo eléctronico</h1>
+        </div>
+
+        <form method="post" class="verification-form">
+            {% csrf_token %}
+            
+            <div class="code-container">
+                <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric" autofocus>
+                <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                
+                <!-- Campo oculto para enviar el código completo -->
+                <input type="hidden" name="verification_code" id="complete_code">
+            </div>
+        
+            <div class="form-actions">
+                <button type="submit" class="register-button">
+                    <i class="fas fa-envelope"></i>
+                    Cambiar correo
+                </button>
+                <a href="{% url 'profile_edit' user.id %}" class="cancel-button">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

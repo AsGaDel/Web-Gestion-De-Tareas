@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Crear Nueva Tarea{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/task_form_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <h1 class="form-title">Crear Nueva Tarea</h1>
+        
+        <form method="post" class="task-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="form-label">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="form-errors">
+                    {% for error in field.errors %}
+                    <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <div class="form-actions">
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-save"></i>
+                    Guardar Tarea
+                </button>
+                <a href="{% url 'tasks' %}" class="cancel-button">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

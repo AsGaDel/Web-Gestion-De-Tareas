@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/png" href="{% static 'core/img/favicon.png' %}"/>
+    <title>{% block title %}Gestión de Tareas de Asier{% endblock %}</title>
+    <meta name="description" content="Sistema de gestión de tareas">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Estilos -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/css/base_styles.css' %}">
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+<header class="header">
+    <nav class="nav-container">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <i class="fas fa-tasks icon-tasks"></i>
+                <h1 class="site-title">Gestión de Tareas</h1>
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">Inicio</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'tasks' %}" class="nav-link {% if request.path == '/tasks/' %}active{% endif %}">Mis Tareas</a>
+                {% endif %}
+                <span class="user-info">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'profile' user.username %}" class="user-profile-link">
+                        <i class="fas fa-user"></i>
+                        <span>{{ user.get_full_name|default:user.username }}</span>
+                    </a>
+                    <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: none;">
+                        {% csrf_token %}
+                    </form>
+                    <a href="#" class="logout-link" onclick="document.getElementById('logout-form').submit(); return false;">
+                        Cerrar sesión
+                    </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="nav-link">Iniciar sesión</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <p class="copyright">&copy; 2025 Sistema de Gestión de Tareas de Asier</p>
+                <div class="footer-links">
+                    <a href="{% url 'contact' %}" class="footer-link">Contacto</a>
+                    <a href="{% url 'about' %}" class="footer-link">Sobre Asier</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'core/js/main.js' %}"></script>
+    {% block final_js %}{% endblock %}
+</body>
+</html>

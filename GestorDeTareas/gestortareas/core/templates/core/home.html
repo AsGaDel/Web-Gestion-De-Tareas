@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Inicio - Gestión de Tareas{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/home_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <h1 class="hero-title">Bienvenido a Gestión de Tareas</h1>
+    <p class="hero-subtitle">Organiza y gestiona tus tareas de manera eficiente</p>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-tasks stat-icon pending"></i>
+            <h3 class="stat-title">Tareas Pendientes</h3>
+            <p class="stat-value">{{ pending_tasks_count }} tareas</p>
+        </div>
+        
+        <div class="stat-card">
+            <i class="fas fa-clock stat-icon in-progress"></i>
+            <h3 class="stat-title">En Proceso</h3>
+            <p class="stat-value">{{ in_progress_tasks_count }} tareas</p>
+        </div>
+        
+        <div class="stat-card">
+            <i class="fas fa-check-circle stat-icon completed"></i>
+            <h3 class="stat-title">Completadas</h3>
+            <p class="stat-value">{{ completed_tasks_count }} tareas</p>
+        </div>
+    </div>
+
+
+    <div class="recent-tasks">
+        <h2 class="recent-tasks-title">Tareas Recientes</h2>
+        <div class="task-list">
+            {% for task in recent_tasks %}
+            <div class="task-item">
+                <div class="task-info">
+                    {% if task.state == 'pendiente' %}
+                        <span class="status-indicator pending"></span>
+                    {% elif task.state == 'en_proceso' %}
+                        <span class="status-indicator in-progress"></span>
+                    {% else %}
+                        <span class="status-indicator completed"></span>
+                    {% endif %}
+                    <span class="task-title">{{ task.title }}</span>
+                </div>
+                <span class="task-date">{{ task.deadline|date:"d/m/Y" }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'tasks' %}" class="view-all-link">Ver todas las tareas</a>
+    </div>
+</div>
+{% endblock %}

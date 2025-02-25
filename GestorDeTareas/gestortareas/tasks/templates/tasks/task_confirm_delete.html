@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Eliminar Tarea{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/task_delete_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="delete-container">
+    <div class="delete-card">
+        <div class="delete-header">
+            <i class="fas fa-exclamation-triangle warning-icon"></i>
+            <h1 class="delete-title">Confirmar Eliminación</h1>
+        </div>
+
+        <div class="delete-content">
+            <p class="delete-message">
+                ¿Estás seguro de que quieres eliminar la tarea <span class="task-name">"{{ object }}"</span>?
+            </p>
+            <p class="delete-warning">
+                Esta acción no se puede deshacer.
+            </p>
+        </div>
+
+        <form method="post" class="delete-form">
+            {% csrf_token %}
+            {{ form }}
+            
+            <div class="delete-actions">
+                <a href="{% url 'tasks' %}" class="cancel-button">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </a>
+                <button type="submit" class="delete-button">
+                    <i class="fas fa-trash-alt"></i>
+                    Eliminar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

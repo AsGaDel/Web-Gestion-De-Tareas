@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Registro{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/signup_styles.css' %}?v=1">
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <i class="fas fa-envelope register-icon"></i>
+            <h1 class="register-title">Cambiar el correo eléctronico</h1>
+        </div>
+
+        <form method="post" class="register-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-group">
+                {{ field }}
+                {% if field.help_text %}
+                <small class="help-text">{{ field.help_text|safe }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <div class="error-messages">
+                    {% for error in field.errors %}
+                    <p class="error-text">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="register-button">
+                <i class="fas fa-envelope"></i>
+                Cambiar correo
+            </button>
+            <a href="{% url 'profile_edit' user.id %}" class="cancel-button">
+                <i class="fas fa-times"></i>
+                Cancelar
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Sobre mí - Gestión de Tareas{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/about_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="about-container">
+    <div class="profile-card">
+        <!-- Header/Banner -->
+        <div class="profile-banner">
+            <div class="profile-image-container">
+                <div class="profile-image">
+                    <img src="{% static 'core/img/madoka.png' %}" alt="Asier Gallardo Delgado">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="profile-content">
+            <h1 class="profile-name">Asier Gallardo Delgado</h1>
+            <p class="profile-title">Estudiante</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+            
+            <div class="content-sections">
+                <!-- Sobre mí -->
+                <section class="section">
+                    <h2 class="section-title">Sobre mí</h2>
+                    <p class="section-text">
+                        Soy un desarrollador novato apasionado por la tecnología y la programación, 
+                        y busco aprender numerosas tecnologías y lenguajes de programación para poder aplicar
+                        mis conocimientos en proyectos propios a futuro. También me gusta todo lo relacionado con
+                        desarrollo de videojuegos y creación de contenido multimedia, y espero poder trabajar en
+                        proyectos relacionados con estos temas en un futuro.
+                    </p>
+                </section>
+                
+                <!-- Habilidades -->
+                <section class="section">
+                    <h2 class="section-title">Habilidades</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <i class="fab fa-java skill-icon"></i>
+                            <p class="skill-name">Java</p>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fas fa-database skill-icon"></i>
+                            <p class="skill-name">SQL</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Educación -->
+                <section class="section">
+                    <h2 class="section-title">Educación</h2>
+                    <div class="education-item">
+                        <h3 class="education-title">Técnico Superior en Desarrollo de Aplicaciones Multiplataforma</h3>
+                        <p class="education-details">CIFP César Manrique • 2023 - 2025</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

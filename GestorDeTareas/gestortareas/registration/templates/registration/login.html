@@ -1,0 +1,71 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/login_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <i class="fas fa-user-circle icon-login"></i>
+            <h1 class="login-title">Iniciar Sesión</h1>
+        </div>
+
+        {% if form.errors %}
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            <p>El usuario o la contraseña no son correctos. Por favor, inténtalo de nuevo.</p>
+        </div>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Tu cuenta no tiene acceso a esta página. Para continuar, inicia sesión con una cuenta que tenga acceso.</p>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <p>Por favor, inicia sesión para ver esta página.</p>
+            </div>
+            {% endif %}
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}" class="login-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username" class="form-label">
+                    <i class="fas fa-user"></i>
+                    Usuario
+                </label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password" class="form-label">
+                    <i class="fas fa-lock"></i>
+                    Contraseña
+                </label>
+                {{ form.password }}
+            </div>
+
+            <div class="register-link">
+                ¿No tienes cuenta? <a href="{% url 'signup' %}">Regístrate</a>
+            </div>
+
+            <button type="submit" class="login-button">
+                <i class="fas fa-sign-in-alt"></i>
+                Iniciar Sesión
+            </button>
+
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </div>
+</div>
+{% endblock %}

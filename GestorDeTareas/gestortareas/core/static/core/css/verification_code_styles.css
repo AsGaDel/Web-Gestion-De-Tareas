@@ -1,0 +1,41 @@
+.verification-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.code-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.code-input {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.code-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.code-input.filled {
+    border-color: #2563eb;
+    background-color: #eff6ff;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}

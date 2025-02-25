@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Registro{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/signup_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <i class="fas fa-user-plus register-icon"></i>
+            <h1 class="register-title">Crear Cuenta</h1>
+            <p class="register-subtitle">Únete a nuestra plataforma de gestión de tareas</p>
+        </div>
+
+        <form method="post" class="register-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="form-label">
+                    <i class="fas fa-{% if field.name == 'username' %}user{% elif field.name == 'email' %}envelope{% elif field.name == 'password1' %}lock{% elif field.name == 'password2' %}key{% endif %}"></i>
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                <small class="help-text">{{ field.help_text|safe }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <div class="error-messages">
+                    {% for error in field.errors %}
+                    <p class="error-text">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="register-button">
+                <i class="fas fa-user-plus"></i>
+                Registrarse
+            </button>
+        </form>
+
+        <div class="login-link">
+            ¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
